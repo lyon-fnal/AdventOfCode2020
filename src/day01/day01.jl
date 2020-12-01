@@ -11,7 +11,7 @@ Part 2: Same as above, but use three numbers.
 =#
 
 
-""" dumbLoops
+""" withLoops
 
     Solve day 1 with loops
 """
