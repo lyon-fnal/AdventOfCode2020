@@ -61,6 +61,33 @@ function withCombinatorics(v::Vector{Int} = readNumbers(Int,joinpath(@__DIR__, "
     return(prod(sum2[1]), prod(sum3[1]))
 end
 
+""" withCombinatoricsFaster
+
+    Solve day 1 by using the combinatorics package. This is from https://github.com/racinmat/advent_of_code_2020/
+    and is faster since it doesn't go through the whole list
+"""
+function withCombinatoricsFaster(v::Vector{Int} = readNumbers(Int,joinpath(@__DIR__, "input.txt")))
+
+    prod2 = 0
+    prod3 = 0
+
+    for e in combinations(v, 2)
+        if sum(e) == 2020
+            prod2 = prod(e)
+            break
+        end
+    end
+
+    for e in combinations(v, 3)
+        if sum(e) == 2020
+            prod3 = prod(e)
+            break
+        end
+    end
+
+    return (prod2, prod3)
+end
+
 #--------------------------
 """ byShaping
 
