@@ -10,29 +10,28 @@ two numbers.
 Part 2: Same as above, but use three numbers.
 =#
 
-
 """ withLoops
 
     Solve day 1 with loops
 """
-function withLoops(in::Vector{Int} = readNumbers(Int,joinpath(@__DIR__, "input.txt")))
+function withLoops(v::Vector{Int} = readNumbers(Int,joinpath(@__DIR__, "input.txt")))
 
-    l = length(in)
+    l = length(v)
     product1 = 0
 
     for i=1:l-1, j=i+1:l
-        if in[i] + in[j] == 2020
-            product1 = in[i] * in[j]
-            @debug "Found in[$i]=$(in[i]), in[$j]=$(in[j])"
+        if v[i] + v[j] == 2020
+            product1 = v[i] * v[j]
+            @debug "Found v[$i]=$(v[i]), v[$j]=$(v[j])"
             break
         end
     end
 
     product2 = 0
     for i=1:l-2, j=i+1:l-1, k=j+1:l
-        if in[i] + in[j] + in[k] == 2020
-            product2 = in[i] * in[j] * in[k]
-            @debug "Found in[$i]=$(in[i]), in[$j]=$(in[j]), in[$k]=$(in[k])"
+        if v[i] + v[j] + v[k] == 2020
+            product2 = v[i] * v[j] * v[k]
+            @debug "Found v[$i]=$(v[i]), v[$j]=$(v[j]), v[$k]=$(v[k])"
             break
         end
     end
@@ -48,9 +47,9 @@ using Combinatorics
 
     Solve day 1 by using the combinatorics package
 """
-function withCombinatorics(in::Vector{Int} = readNumbers(Int,joinpath(@__DIR__, "input.txt")))
-    doubles = combinations(in,2) |> collect
-    triples = combinations(in,3) |> collect
+function withCombinatorics(v::Vector{Int} = readNumbers(Int,joinpath(@__DIR__, "input.txt")))
+    doubles = combinations(v,2) |> collect
+    triples = combinations(v,3) |> collect
 
     isSum2020(r) = sum(r) == 2020
     sum2 = filter(isSum2020, doubles)
@@ -58,7 +57,45 @@ function withCombinatorics(in::Vector{Int} = readNumbers(Int,joinpath(@__DIR__, 
 
     @debug "sum2 = $sum2; sum3 = $sum3"
 
+    # Filter returns a list (of length 1)
     return(prod(sum2[1]), prod(sum3[1]))
+end
+
+#--------------------------
+""" byShaping
+
+    Kevin (https://git.sr.ht/~retzkek/aoc20) solved by reshaping the vector
+    But there's a possibility of false answers
+"""
+function byShaping(v::Vector{Int} = readNumbers(Int,joinpath(@__DIR__, "input.txt")))
+
+    sums2  = v .+ v'   # v' == transpose(v)
+    prods2 = v .* v'
+
+    answer2 = prods2[ sums2 .== 2020 ]
+
+    # We'll get a false answer if a value + itself == 2020
+    # Maybe that doesn't happen
+    @assert all(2 .* v != 2020)
+
+    sums3  = v .+ v' .+ reshape(v, 1, 1, :)
+    prods3 = v .* v' .* reshape(v, 1, 1, :)
+
+    answer3 = prods3[ sums3 .== 2020 ]
+
+    # This has the same problem as above
+    @assert all( 3. * v != 2020)
+
+    # There's another false positive if 2*v[i] + v[j] == 2020  (i != j)
+    @assert all( (2 .* v) .+ v' != 2020)
+
+    # For one solution, we'll get two entries for answer2 ( v[i] + v[j], v[j] + v[i] )
+    @assert length(answer2) == 2
+
+    # ... and 3! = 6 entries for answer3
+    @assert length(answer3) == 6
+
+    return (answer2[1], answer3[1])
 end
 
 end  # module
