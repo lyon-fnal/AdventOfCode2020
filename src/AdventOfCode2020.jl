@@ -4,7 +4,17 @@ using Chain
 
 # Following the structure in https://github.com/goggle/AdventOfCode2019.jl
 
-export readNumbers
+export readStrings, readNumbers
+
+"""readStrings(path)
+    Read in a file at path of one column and return as a String vector
+"""
+function readStrings(path::String)
+    open(path, "r") do file
+        s = read(file, String)
+        split(strip(s), "\n")  # Turn each line into a string row
+    end
+end
 
 """ readNumbers(T, path)
 
@@ -13,18 +23,15 @@ export readNumbers
     valuesVector = readNumbers(Int, "/path/to/my/input.txt")
 """
 function readNumbers(::Type{T}, path::String) where T <: Number
-    out = open(path, "r") do file
-        @chain read(file, String) begin
-            split
-            parse.(T, _)
-        end
+    @chain readStrings(path) begin
+        parse.(T, _)
     end
-    return out
 end
 
-# TODO Do this better later
+# TODO Make the below better
 include("Day01/day01.jl")
+include("Day02/day02.jl")
 
-# TODO Do benchmarks
+# TODO automated benchmarks
 
 end # module

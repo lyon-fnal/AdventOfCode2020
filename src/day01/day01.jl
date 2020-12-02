@@ -10,40 +10,40 @@ two numbers.
 Part 2: Same as above, but use three numbers.
 =#
 
-""" withLoops
+""" withLoops()
 
     Solve day 1 with loops
 """
 function withLoops(v::Vector{Int} = readNumbers(Int,joinpath(@__DIR__, "input.txt")))
 
     l = length(v)
-    product1 = 0
+    product2 = 0
 
     for i=1:l-1, j=i+1:l
         if v[i] + v[j] == 2020
-            product1 = v[i] * v[j]
+            product2 = v[i] * v[j]
             @debug "Found v[$i]=$(v[i]), v[$j]=$(v[j])"
             break
         end
     end
 
-    product2 = 0
+    product3 = 0
     for i=1:l-2, j=i+1:l-1, k=j+1:l
         if v[i] + v[j] + v[k] == 2020
-            product2 = v[i] * v[j] * v[k]
+            product3 = v[i] * v[j] * v[k]
             @debug "Found v[$i]=$(v[i]), v[$j]=$(v[j]), v[$k]=$(v[k])"
             break
         end
     end
 
-    return product1, product2
+    return product2, product3
 end
 
 #-------------------------
 
 using Combinatorics
 
-""" withCombinatorics
+""" withCombinatorics()
 
     Solve day 1 by using the combinatorics package
 """
@@ -61,7 +61,7 @@ function withCombinatorics(v::Vector{Int} = readNumbers(Int,joinpath(@__DIR__, "
     return(prod(sum2[1]), prod(sum3[1]))
 end
 
-""" withCombinatoricsFaster
+""" withCombinatoricsFaster()
 
     Solve day 1 by using the combinatorics package. This is from https://github.com/racinmat/advent_of_code_2020/
     and is faster since it doesn't go through the whole list
@@ -89,7 +89,7 @@ function withCombinatoricsFaster(v::Vector{Int} = readNumbers(Int,joinpath(@__DI
 end
 
 #--------------------------
-""" byShaping
+""" byShaping()
 
     Kevin (https://git.sr.ht/~retzkek/aoc20) solved by reshaping the vector
     But there's a possibility of false answers
