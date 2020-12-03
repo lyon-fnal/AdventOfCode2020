@@ -21,6 +21,8 @@ using BenchmarkTools
 | 01  | [`withCombinatoricsFaster`](https://github.com/lyon-fnal/AdventOfCode2020/blob/master/src/day01/day01.jl#L64) | 27 ms | 73 MB |
 | 01  | [`byShaping`](https://github.com/lyon-fnal/AdventOfCode2020/blob/master/src/day01/day01.jl#L92) | 32 ms | 123 MB |
 | 02  | [`withLoops`](https://github.com/lyon-fnal/AdventOfCode2020/blob/master/src/day02/day02.jl#L64) | 1.9 ms | 1.5 MB |
+| 02  | [`withDataframe`](https://github.com/lyon-fnal/AdventOfCode2020/blob/master/src/day02/day02.jl#L116) | 1.3 ms | 762 MB |
+| 02  | [`likeGoogle`](https://github.com/lyon-fnal/AdventOfCode2020/blob/master/src/day02/day02.jl#L137) | 773 μs | 539 KB |
 
 Benchmarks performed on
 ```

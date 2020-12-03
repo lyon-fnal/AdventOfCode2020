@@ -2,6 +2,7 @@ module Day02
 
 using AdventOfCode2020
 using Chain
+using DataFrames
 
 #= Day 02 Puzzle...
 
@@ -102,8 +103,8 @@ function withLoops(nAllowed, keyLetter, password)
         isLast  = nAllowed[i][end] in pos
 
         # @debug string(password[i]), string(keyLetter[i]), pos, nAllowed[i], isFirst, isLast
-        # Either, but not both, of isFirst and isSecond must be true
-        if (isFirst || isLast) && !(isFirst && isLast)
+        # Either, but not both, of isFirst and isSecond must be true (xor)
+        if isFirst ⊻ isLast
             nValid2 += 1
             # @debug "good"
         end
@@ -112,6 +113,58 @@ function withLoops(nAllowed, keyLetter, password)
     (nValid1, nValid2)
 end
 
-# TODO Would be interesting and more elegant to try this with data frames
+""" withDataFrame()
+
+   Solve Day 2 using a DataFrame and transform
+"""
+function withDataFrame(path::String=joinpath(@__DIR__, "input.txt"))
+    s = readStrings(path)
+    ms = match.(r"(\d+)-(\d+)\s+(.):\s+(.+)", s)
+    lows  = [parse(Int, m.captures[1]) for m in ms]
+    highs = [parse(Int, m.captures[2]) for m in ms]
+    chars = [m.captures[3][1] for m in ms]
+    pws   = [m.captures[4] for m in ms]
+
+    df = DataFrame(low=lows, high=highs, char=chars, pw=pws, copycols=false)
+
+    passPart1(nt) = nt.low <= count(c -> c == nt.char, nt.pw) <= nt.high
+    passPart2(nt) = (nt.pw[nt.low] == nt.char) ⊻ (nt.pw[nt.high] == nt.char)
+    transform!(df, AsTable(:) .=> ByRow.( [passPart1, passPart2] ) .=> [:passPart1, :passPart2])
+
+    ( sum(df.passPart1), sum(df.passPart2) )
+end
+
+""" likeGoogle()
+
+    Google had a very succint way to do this https://github.com/goggle/AdventOfCode2020.jl/blob/master/src/day02/day02.jl
+"""
+function likeGoogle(path::String=joinpath(@__DIR__, "input.txt"))
+    s = readStrings(path)
+
+    part1 = part2 = 0
+    for line in s
+
+        # Use a regex to capture part of the line
+        # 1-4 e: aadjadfeakjf
+        m = match(r"(\d+)-(\d+)\s+(.):\s+(.+)", line)
+        m === nothing && break  # Stop if we're at the end
+
+        # Turn the positions into integers
+        low  = parse(Int, m.captures[1])
+        high = parse(Int, m.captures[2])
+        char = m.captures[3][1]   # the getindex returns a character
+        pw = m.captures[4]
+
+        if low <= count(c -> c == char, pw) <= high
+            part1 += 1
+        end
+
+        if (pw[low] == char) ⊻ (pw[high] == char)  # exclusive or \xor
+            part2 += 1
+        end
+    end
+
+    return (part1, part2)
+end
 
 end # module
