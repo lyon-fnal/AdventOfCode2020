@@ -1,4 +1,4 @@
-# Advent of code 2020
+# Advent of code 2020 with Julia
 
 See https://adventofcode.com/2020
 
