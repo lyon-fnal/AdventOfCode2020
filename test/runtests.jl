@@ -16,3 +16,8 @@ end
     @test AdventOfCode2020.Day02.withDataFrame() == solution
     @test AdventOfCode2020.Day02.likeGoogle() == solution
 end
+
+@testset "Day 3" begin
+    solution = 3510149120
+    @test AdventOfCode2020.Day03.withLoops() == solution
+end

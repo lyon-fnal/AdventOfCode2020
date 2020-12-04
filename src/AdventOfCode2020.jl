@@ -31,6 +31,7 @@ end
 # TODO Make the below better
 include("Day01/day01.jl")
 include("Day02/day02.jl")
+include("Day03/day03.jl")
 
 # TODO automated benchmarks
 
