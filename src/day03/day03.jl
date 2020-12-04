@@ -47,10 +47,8 @@ function withLoops(s=readStrings(joinpath(@__DIR__, "input.txt")))
     # a step is [down, right]
     theSteps = [ [1,1], [1,3], [1,5], [1,7], [2,1] ]
 
-    # Do the runs
-    trees = map(s -> doRun(s, trees), theSteps)
-
-    prod(trees)
+    # Do the runs - we want the product of the # of trees
+    mapreduce(s -> doRun(s, trees), *, theSteps)
 end
 
 end # Day03
