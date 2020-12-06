@@ -62,14 +62,14 @@ function checkHeight(v)
     return good
 end
 
-checks = Dict()
+const checks = Dict()
 checks["byr"] = v -> length(v) == 4 && 1920 <= parse(Int, v) <= 2002
 checks["iyr"] = v -> length(v) == 4 && 2010 <= parse(Int, v) <= 2020
 checks["eyr"] = v -> length(v) == 4 && 2020 <= parse(Int, v) <= 2030
 checks["hgt"] = v -> checkHeight(v)
 checks["hcl"] = v -> !isnothing( match(r"^#[0-9a-f]{6}$", v))
 checks["ecl"] = v -> v in ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
-checks["pid"] = v -> !isnothing( match(r"^[0-9]{9}$", v) )
+checks["pid"] = v -> !isnothing( match(r"^[0-9]{9}$", v) )  # The final $ is important!
 
 """withLoops
 
