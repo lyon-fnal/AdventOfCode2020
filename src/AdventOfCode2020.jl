@@ -28,10 +28,14 @@ function readNumbers(::Type{T}, path::String) where T <: Number
     end
 end
 
-# TODO Make the below better
-include("Day01/day01.jl")
-include("Day02/day02.jl")
-include("Day03/day03.jl")
+# include dayNN/dayNN.jl
+using Printf
+
+for day in 1:25
+    dayS = @sprintf("day%02d", day)
+    path = joinpath(@__DIR__, "$dayS/$dayS.jl")
+    isfile(path) && include(path)
+end
 
 # TODO automated benchmarks
 

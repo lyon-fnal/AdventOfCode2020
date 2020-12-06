@@ -21,3 +21,8 @@ end
     solution = 3510149120
     @test AdventOfCode2020.Day03.withLoops() == solution
 end
+
+@testset "Day 4" begin
+    solution = (239, 188)
+    @test AdventOfCode2020.Day04.withLoops() == solution
+end
