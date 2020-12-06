@@ -26,3 +26,13 @@ end
     solution = (239, 188)
     @test AdventOfCode2020.Day04.withLoops() == solution
 end
+
+@testset "Day 5" begin
+    @test AdventOfCode2020.Day05.processBoardingPass("FBFBBFFRLR") == 357
+    @test AdventOfCode2020.Day05.processBoardingPass("BFFFBBFRRR") == 567
+    @test AdventOfCode2020.Day05.processBoardingPass("FFFBBBFRRR") == 119
+    @test AdventOfCode2020.Day05.processBoardingPass("BBFFBBFRLL") == 820
+
+    solution = (996, 671)
+    @test AdventOfCode2020.Day05.withBroadcasting() == solution
+end
