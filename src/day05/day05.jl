@@ -51,7 +51,7 @@ const startCols = 0:7
 function partitionRange(r, lowerPart=true)
     d = last(r) - first(r) + 1
     if lowerPart
-        newR = first(r):last(r)-(d÷2)
+        newR = first(r):last(r)-(d÷2)  # Note the integer division
     else
         # Keep upper part
         newR = first(r)+(d÷2):last(r)
@@ -97,18 +97,19 @@ function withBroadcasting(s=readStrings(joinpath(@__DIR__, "input.txt")))
 
     minSeatId = minimum(seatIds)
 
-    # Not all seats on the plan exist - instead we have  minSeatId:maxSeatId
+    # Not all seats on the plan exist - instead we have minSeatId:maxSeatId
     plane = minSeatId:maxSeatId
 
     # Find missing seat (not elegant, but it'll work)
     missingSeat = -1
     for i in plane
-        if ! (i in seatIds) && (i-1 in seatIds) && (i+1 in seatIds)
+        # Look for a seat missing and filled seats on each side
+        if (i ∉ seatIds) && (i-1 ∈ seatIds) && (i+1 ∈ seatIds)
             missingSeat = i
             break
         end
     end
-    @assert missingSeat >= minSeatId
+    @assert missingSeat > minSeatId
 
     return maxSeatId, missingSeat
 end
@@ -123,7 +124,7 @@ function seat(s)
         replace(_, "B"=>"1")
         replace(_, "L"=>"0")
         replace(_, "R"=>"1")
-        (parse(Int, _[1:7], base=2), parse(Int, _[8:10], base=2))
+        (parse(Int, _[1:7], base=2), parse(Int, _[8:10], base=2))  # Clever!
     end
 end
 
@@ -135,13 +136,13 @@ function withParseBase(s=readStrings(joinpath(@__DIR__, "input.txt")))
     for bp in s
         id = bp |> seat |> seatId
         largestId = max(largestId, id)
-        plane[id+1] = true
+        plane[id+1] = true  # Note index is offset by one
     end
 
-    # Now run through the plane looking for a missing seat will filled seats on each side
+    # Now run through the plane looking for a missing seat with filled seats on each side
     missingSeat = -1
     for i in 0:(largestId-3)
-        if plane[i+1:i+3] == [1,0,1]
+        if plane[i+1:i+3] == [1,0,1]  # Clever! (for some reason can't do view here)
             missingSeat = i+1
         end
     end

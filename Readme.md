@@ -1,10 +1,10 @@
 # Advent of code 2020 with Julia
 
-See https://adventofcode.com/2020
+See [Advent of code](https://adventofcode.com/2020)
 
 For my solutions, look in the `src` directory and the tests in the `test` directory.
 
-For other solutions, see https://github.com/Bogdanp/awesome-advent-of-code ([Julia](https://github.com/Bogdanp/awesome-advent-of-code#julia))
+For other solutions, see [Awesome-advent-of-code](https://github.com/Bogdanp/awesome-advent-of-code) ([Julia](https://github.com/Bogdanp/awesome-advent-of-code#julia))
 
 ## Benchmarks
 
@@ -28,9 +28,9 @@ using BenchmarkTools
 | 05  | [`withBroadcasting`](https://github.com/lyon-fnal/AdventOfCode2020/blob/master/src/day05/day05.jl#L88) | 421 μs | 129 KB |
 | 05  | [`withParseBase`](https://github.com/lyon-fnal/AdventOfCode2020/blob/master/src/day05/day05.jl#116) | 1.6 ms | 1.3 MB |
 
-
 Benchmarks performed on
-```
+
+```shell
 Julia Version 1.5.3
 Platform Info:
   OS: macOS (x86_64-apple-darwin18.7.0)
