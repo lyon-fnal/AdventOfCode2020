@@ -35,4 +35,6 @@ end
 
     solution = (996, 671)
     @test AdventOfCode2020.Day05.withBroadcasting() == solution
+    @test AdventOfCode2020.Day05.withParseBase() == solution
+
 end

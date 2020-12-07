@@ -39,7 +39,8 @@ BBFFBBFRLL: row 102, column 4, seat ID 820.
 Part 1: What's the maximum seat ID in the last
 
 Part 2: There's a boarding pass missing. What is it? Note that some seat ids in the very front
-and some seat ids at the very back do not exist and will not be in the list
+and some seat ids at the very back do not exist and will not be in the list. Furthermore, someone
+will have the seatId before and after mine
 
 end # Day05
 =#
@@ -102,7 +103,7 @@ function withBroadcasting(s=readStrings(joinpath(@__DIR__, "input.txt")))
     # Find missing seat (not elegant, but it'll work)
     missingSeat = -1
     for i in plane
-        if ! (i in seatIds)
+        if ! (i in seatIds) && (i-1 in seatIds) && (i+1 in seatIds)
             missingSeat = i
             break
         end
@@ -110,6 +111,42 @@ function withBroadcasting(s=readStrings(joinpath(@__DIR__, "input.txt")))
     @assert missingSeat >= minSeatId
 
     return maxSeatId, missingSeat
+end
+
+# --- Kevin has a very clever way to do this, using parse directly with the base option
+# --- https://git.sr.ht/~retzkek/aoc20/tree/master/day05.jl
+using Chain
+
+function seat(s)
+    @chain s begin
+        replace(_, "F"=>"0")  # String version of replace only accepts one pattern
+        replace(_, "B"=>"1")
+        replace(_, "L"=>"0")
+        replace(_, "R"=>"1")
+        (parse(Int, _[1:7], base=2), parse(Int, _[8:10], base=2))
+    end
+end
+
+seatId( (r,c) ) = 8r+c
+
+function withParseBase(s=readStrings(joinpath(@__DIR__, "input.txt")))
+    plane = falses(128*8)  # Creates a bit array
+    largestId = 0
+    for bp in s
+        id = bp |> seat |> seatId
+        largestId = max(largestId, id)
+        plane[id+1] = true
+    end
+
+    # Now run through the plane looking for a missing seat will filled seats on each side
+    missingSeat = -1
+    for i in 0:(largestId-3)
+        if plane[i+1:i+3] == [1,0,1]
+            missingSeat = i+1
+        end
+    end
+
+    return (largestId, missingSeat)
 end
 
 end # Day05
