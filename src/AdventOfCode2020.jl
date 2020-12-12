@@ -9,10 +9,10 @@ export readStrings, readNumbers
 """readStrings(path)
     Read in a file at path of one column and return as a String vector
 """
-function readStrings(path::String)
+function readStrings(path::String; delim="\n")
     open(path, "r") do file
         s = read(file, String)
-        split(strip(s), "\n")  # Turn each line into a string row
+        split(strip(s), delim)  # Turn each line into a string row
     end
 end
 

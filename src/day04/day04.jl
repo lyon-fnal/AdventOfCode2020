@@ -130,6 +130,35 @@ function withLoops(s=readStrings(joinpath(@__DIR__, "input.txt")))
     return nValidPart1, nValidPart2
 end
 
+# ----
+
+""" withCount()
+
+    Try using `count` like in https://julialang.zulipchat.com/#narrow/stream/265470-advent-of-code/topic/Solutions.20day.2004/near/218797578
+
+    Very succinct
+"""
+function withCount(s=readStrings(joinpath(@__DIR__, "input.txt"), delim="\n\n"))
+    # Note specifying the delim above
+
+    fields1 = (r"byr", r"iyr", r"eyr", r"hgt", r"hcl", r"ecl", r"pid")
+    fields2 = (
+        r"byr:(19[2-9][0-9]|200[0-2])\b",
+        r"iyr:20(1[0-9]|20)\b",
+        r"eyr:20(2[0-9]|30)\b",
+        r"hgt:(1([5-8][0-9]|9[0-3])cm|(59|6[0-9]|7[0-6])in)\b",
+        r"hcl:#[0-9a-f]{6}\b",
+        r"ecl:(amb|blu|brn|gry|grn|hzl|oth)\b",
+        r"pid:\d{9}\b"
+    )
+
+    part1 = count(p -> all(t -> contains(p, t), fields1), s)
+    part2 = count(p -> all(t -> contains(p, t), fields2), s)
+
+    return part1, part2
+
+end
+
 # Try a test case
 testCase1 = """
 ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
@@ -151,5 +180,7 @@ using Test
 @test withLoops(split(testCase1, "\n")) == (2,2)
 
 # TODO  Try this with Automa.jl  - See https://julialang.zulipchat.com/#narrow/stream/265470-advent-of-code/topic/Solutions.20day.2004/near/218814830
+
+
 
 end # Day04

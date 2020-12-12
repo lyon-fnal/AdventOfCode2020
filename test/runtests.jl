@@ -25,6 +25,7 @@ end
 @testset "Day 4" begin
     solution = (239, 188)
     @test AdventOfCode2020.Day04.withLoops() == solution
+    @test AdventOfCode2020.Day04.withCount() == solution
 end
 
 @testset "Day 5" begin
