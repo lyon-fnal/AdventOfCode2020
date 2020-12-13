@@ -43,3 +43,10 @@ end
     solution = (6437, 3229)
     @test AdventOfCode2020.Day06.day06() == solution
 end
+
+@testset "Day 7" begin
+    solution1 = 144
+    solution2 = 5956
+    @test AdventOfCode2020.Day07.day07Part1() == solution1
+    @test AdventOfCode2020.Day07.day07Part2() == solution2
+end
