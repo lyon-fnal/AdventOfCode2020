@@ -28,6 +28,7 @@ using BenchmarkTools
 | 04  | [`withCount`](https://github.com/lyon-fnal/AdventOfCode2020/blob/master/src/day04/day04.jl#L135) | 857 μs | 100 KB |
 | 05  | [`withBroadcasting`](https://github.com/lyon-fnal/AdventOfCode2020/blob/master/src/day05/day05.jl#L88) | 421 μs | 129 KB |
 | 05  | [`withParseBase`](https://github.com/lyon-fnal/AdventOfCode2020/blob/master/src/day05/day05.jl#116) | 1.6 ms | 1.3 MB |
+| 06  | [`day06`](https://github.com/lyon-fnal/AdventOfCode2020/blob/master/src/day06/day06.jl#15) | 2.6 ms | 2.2 MB |
 
 Benchmarks performed on
 

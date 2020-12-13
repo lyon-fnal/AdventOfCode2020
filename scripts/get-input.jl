@@ -2,7 +2,7 @@
 # Following https://github.com/cmcaine/advent2020/blob/main/scripts/get-data.jl
 
 # Run from the main AdventOfCode2020 directory.
-# julia scripts/get-input.jl 4
+# julia scripts/get-input.jl 4   # day04 directory should exist
 
 using HTTP
 

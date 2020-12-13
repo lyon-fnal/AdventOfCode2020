@@ -37,5 +37,9 @@ end
     solution = (996, 671)
     @test AdventOfCode2020.Day05.withBroadcasting() == solution
     @test AdventOfCode2020.Day05.withParseBase() == solution
+end
 
+@testset "Day 6" begin
+    solution = (6437, 3229)
+    @test AdventOfCode2020.Day06.day06() == solution
 end
